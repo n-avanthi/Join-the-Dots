@@ -1,20 +1,11 @@
 import { LEVELS } from "./config.js";
 import { state, resetState } from "./gameState.js";
-import {
-  setupCanvas,
-  createDots,
-  addEventListeners,
-  startTimer,
-  updateDotsRemaining,
-  stopTimer,
-} from "./gameLogic.js";
+import { setupCanvas, createDots, addEventListeners, startTimer, updateDotsRemaining, stopTimer, } from "./gameLogic.js";
 
 let currentTimerInterval;
 
 export function initializeGame() {
-  const levelConfig = LEVELS.find(
-    (level) => level.level === state.currentLevel
-  );
+  const levelConfig = LEVELS[state.currentLevel - 1];
   if (!levelConfig) {
     console.error("Invalid level");
     return;
@@ -65,13 +56,13 @@ function updateUIForNewLevel(levelConfig) {
 }
 
 export function nextLevel() {
-    if (state.currentLevel < LEVELS.length) {
-        updateCurrentLevel(state.currentLevel + 1);
-        resetGame();
-    } else {
-        // Game completed
-        showFinalModal();
-    }
+  if (state.currentLevel < LEVELS.length) {
+      updateCurrentLevel(state.currentLevel + 1);
+      resetGame();
+  } else {
+      // Game completed
+      showFinalModal();
+  }
 }
 
 function updateCurrentLevel(level) {
@@ -112,8 +103,9 @@ function showFinalModal() {
   replayBtn.style.display = "inline-block";
   replayBtn.textContent = "Play Again";
   replayBtn.onclick = function() {
-    updateCurrentLevel(1);
+    localStorage.removeItem('currentLevel');  // Clear stored level
+    updateCurrentLevel(1);  // Reset to level 1
     resetGame();
     modal.style.display = 'none';
-    };
+  };
 }

@@ -18,7 +18,10 @@
             <div class="main-area">
                 <canvas id="game-canvas" width="400" height="350"></canvas>
                 <div class="info-panel">
-                    <p class="instruction">Join <span id="target-dots"></span> blue dots in <span id="initial-time"></span> secs to complete this level</p>
+                    <div class="instruction">
+                        <p style="font-size: 1.1em;"><b>Join <span id="target-dots"></span> Blue Dots in <span id="initial-time"></span> secs to complete this level!</b></p>
+                        <p>No more Blue Dots? Join other colors to get more Blue Dots</p>
+                    </div>
                     <div class="info-item">
                         <span class="label">Connections Remaining:</span>
                         <span class="value dots-remaining-display"></span>
@@ -27,6 +30,7 @@
                         <span class="label">Time:</span>
                         <span class="value time-display"></span>
                     </div>
+                    <p class="tip">Tip: Make longer connections to increase your chance of getting Blue Dots</p>
                 </div>
             </div>
         </div>
