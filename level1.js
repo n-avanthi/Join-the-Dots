@@ -341,8 +341,9 @@ function endGame(won) {
     const endTime = parseInt(timeElement.textContent);
     const timeTaken = startTime - endTime;
 
-    let message;
+    let message, title;
     if (won) {
+        title = "Level Completed!";
         if (timeTaken <= startTime / 4) {
             message = "Congratulations! You won with a perfect score of 100!";
         } else if (timeTaken <= startTime / 2) {
@@ -353,10 +354,37 @@ function endGame(won) {
             message = "You won with a score of 25!";
         }
     } else {
-        message = "Game Over! Try again.";
+        title = "Level Failed";
+        message = "Try again. You can do it!";
     }
 
-    alert(message);
+    showModal(title, message, won);
+}
+
+function showModal(title, message, won) {
+    const modal = document.getElementById('level-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalMessage = document.getElementById('modal-message');
+    const nextLevelBtn = document.getElementById('next-level-btn');
+    const replayBtn = document.getElementById('replay-btn');
+
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modal.style.display = 'block';
+
+    if (won) {
+        nextLevelBtn.style.display = 'inline-block';
+        replayBtn.style.display = 'none';
+        nextLevelBtn.onclick = function() {
+            // window.location.href = 'level2.html';
+        };
+    } else {
+        nextLevelBtn.style.display = 'none';
+        replayBtn.style.display = 'inline-block';
+        replayBtn.onclick = function() {
+            location.reload();
+        };
+    }
 }
 
 // Utility Classes

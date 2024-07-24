@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join the Dots | Level 1</title>
-    <link rel="stylesheet" href="level1.css">
+    <title>Join the Dots</title>
+    <link rel="stylesheet" href="game.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.11/fabric.js"></script>
-    <script src="level1.js"></script>
+    <script type="module" src="main.js"></script>
 </head>
 <body>
     <div class="game-container">
         <div class="game-content">
-            <h2 class="title">Level 1</h2>
+            <h2 class="title">Level <span id="current-level"></span></h2>
             <div class="main-area">
                 <canvas id="game-canvas" width="400" height="350"></canvas>
                 <div class="info-panel">
-                    <p class="instruction">Join <span id="target-dots"></span> blue dots in <span id="initial-time"></span> secs to complete this level</p>                    <div class="info-item">
+                    <p class="instruction">Join <span id="target-dots"></span> blue dots in <span id="initial-time"></span> secs to complete this level</p>
+                    <div class="info-item">
                         <span class="label">Connections Remaining:</span>
                         <span class="value dots-remaining-display"></span>
                     </div>
@@ -28,6 +29,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="level-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-message"></p>
+            <button id="next-level-btn" class="modal-btn">Next Level</button>
+            <button id="replay-btn" class="modal-btn">Replay Level</button>
         </div>
     </div>
 </body>
