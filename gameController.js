@@ -5,13 +5,12 @@ import { setupCanvas, createDots, addEventListeners, startTimer, updateDotsRemai
 let currentTimerInterval;
 
 export function initializeGame() {
-  const levelConfig = LEVELS[state.currentLevel - 1];
+  const levelConfig = LEVELS[state.currentLevel - 1]; // indices in JavaScript start at 0
   if (!levelConfig) {
     console.error("Invalid level");
     return;
   }
 
-  // Set state.timeElement before calling any functions that might use it
   state.timeElement = document.querySelector(".time-display");
   if (!state.timeElement) {
     console.error("Time display element not found");
@@ -23,16 +22,13 @@ export function initializeGame() {
   } else {
     state.canvas.clear();
   }
-
   createDots();
   addEventListeners();
 
   if (currentTimerInterval) {
     stopTimer(currentTimerInterval);
   }
-
   currentTimerInterval = startTimer(levelConfig.initialTime);
-
   updateUIForNewLevel(levelConfig);
 }
 
@@ -41,7 +37,6 @@ function updateUIForNewLevel(levelConfig) {
   document.getElementById("initial-time").textContent = levelConfig.initialTime;
   document.getElementById("current-level").textContent = state.currentLevel;
 
-  // We've already set state.timeElement in initializeGame, so we can use it directly here
   state.timeElement.textContent = levelConfig.initialTime;
   state.timeElement.setAttribute("data-start-time", levelConfig.initialTime);
 
@@ -60,8 +55,7 @@ export function nextLevel() {
       updateCurrentLevel(state.currentLevel + 1);
       resetGame();
   } else {
-      // Game completed
-      showFinalModal();
+      showFinalModal(); // Game completed
   }
 }
 
@@ -75,16 +69,11 @@ export function resetCurrentLevel() {
     if (modal) {
         modal.style.display = 'none';
     }
-    
-    // No need to update localStorage here as we're keeping the same level
-    resetGame();
+    resetGame(); // No need to update localStorage here as we're keeping the same level
 }
 
 function resetGame() {
-  // Reset game state
   resetState();
-
-  // Reinitialize game
   initializeGame();
 }
 

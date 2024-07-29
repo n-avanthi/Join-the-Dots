@@ -47,7 +47,7 @@ export function addEventListeners() {
   state.canvas.on("mouse:up", handleMouseUp);
 }
 
-function handleMouseOver(e) {
+function handleMouseOver(e) { // mouse moves over a dot
   if (state.gameEnded || !e.target) return;
 
   const target = e.target;
@@ -59,19 +59,19 @@ function handleMouseOver(e) {
   state.canvas.renderAll();
 }
 
-function handleMouseOut(e) {
+function handleMouseOut(e) { // mouse moves out of a dot
   if (e.target) {
     e.target.setStroke("rgba(0,0,0,0)");
     state.canvas.renderAll();
   }
 }
 
-function handleMouseDown(e) {
+function handleMouseDown(e) { // mouse is pressed on a dot
   if (state.gameEnded || !e.target) return;
 
   if (e.target.get("type") === "circle") {
     if (state.lineExists && state.activeLineColor !== e.target.getFill()) {
-      console.log("Color does not match existing.");
+      console.log("Same color dots must be connected");
       state.line = null;
       return;
     }
@@ -101,7 +101,7 @@ function handleMouseDown(e) {
   }
 }
 
-function handleMouseMove(e) {
+function handleMouseMove(e) { // mouse moves while the button is held down
   if (state.gameEnded || !state.isDown) return;
 
   const pointer = state.canvas.getPointer(e.e);
@@ -111,7 +111,7 @@ function handleMouseMove(e) {
   state.canvas.renderAll();
 }
 
-function handleMouseUp(e) {
+function handleMouseUp(e) { // mouse button is released
   if (state.gameEnded) return;
 
   state.isDown = false;
@@ -151,23 +151,19 @@ function handleLineCreation(target) {
 }
 
 function isValidLine(line, target) {
-  if (line.x2 !== line.x1 && line.y2 !== line.y1) {
-    console.log("Diagonal lines are not allowed.");
+  if (line.x2 !== line.x1 && line.y2 !== line.y1) { // Diagonal lines are not allowed
     return false;
   }
   if (
-    Math.abs(line.x2 - line.x1) > GRID_SIZE ||
-    Math.abs(line.y2 - line.y1) > GRID_SIZE
-  ) {
-    console.log("Lines can only be one unit long");
+    Math.abs(line.x2 - line.x1) > GRID_SIZE || // Lines can only be one unit long
+    Math.abs(line.y2 - line.y1) > GRID_SIZE 
+  ) { 
     return false;
   }
-  if (target.in) {
-    console.log("Circle already has an input");
+  if (target.in) { // Circle already has an input
     return false;
   }
-  if (target.id === state.selectedDots.tail.id) {
-    console.log("Cannot move backwards.");
+  if (target.id === state.selectedDots.tail.id) { // Cannot move backwards
     return false;
   }
   return true;
@@ -266,6 +262,23 @@ function animateAndRemove(obj) {
   });
 }
 
+export function updateDotsRemaining() {
+  const levelConfig = LEVELS.find( // checks each level object in the array to see if its level property matches state.currentLevel
+    (level) => level.level === state.currentLevel
+  );
+  const dotsRemaining = levelConfig.targetBlueDots - state.connectedBlueDots;
+  state.dotsRemainingElement.textContent = dotsRemaining;
+}
+
+export function checkWinCondition() {
+  const levelConfig = LEVELS.find(
+    (level) => level.level === state.currentLevel
+  );
+  if (state.connectedBlueDots >= levelConfig.targetBlueDots) {
+    endGame(true);
+  }
+}
+
 export function startTimer(initialTime) {
   let timeLeft = initialTime;
 
@@ -356,22 +369,6 @@ function showModal(title, message, won) {
   }
 }
 
-export function updateDotsRemaining() {
-  const levelConfig = LEVELS.find(
-    (level) => level.level === state.currentLevel
-  );
-  const dotsRemaining = levelConfig.targetBlueDots - state.connectedBlueDots;
-  state.dotsRemainingElement.textContent = dotsRemaining;
-}
-
-export function checkWinCondition() {
-  const levelConfig = LEVELS.find(
-    (level) => level.level === state.currentLevel
-  );
-  if (state.connectedBlueDots >= levelConfig.targetBlueDots) {
-    endGame(true);
-  }
-}
 export {
   handleLineCreation,
   isValidLine,

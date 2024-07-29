@@ -1,4 +1,3 @@
-// Game state variables and utility classes
 import { LEVELS } from "./config.js";
 
 export const state = {
@@ -18,7 +17,6 @@ export const state = {
     dotsRemainingElement: null
 };
 
-// gameState.js
 export function resetState() {
     state.selectedDots = new DoublyList();
     state.currentDot = null;
@@ -30,15 +28,13 @@ export function resetState() {
     state.allLines = [];
     state.connectedBlueDots = 0;
     state.gameEnded = false;
-    state.currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
-    // Do not reset timeElement or dotsRemainingElement here
+    state.currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1; // Set to value stored in localStorage or 1 if no value is stored
 }
 
 export function updateCurrentLevel(level) {
     state.currentLevel = level;
-    // Only store in localStorage if the player hasn't completed all levels
-    if (level <= LEVELS.length) {
-        localStorage.setItem('currentLevel', level);
+    if (level <= LEVELS.length) { // Only store in localStorage if the player hasn't completed all levels
+        localStorage.setItem('currentLevel', level); 
     } else {
         localStorage.removeItem('currentLevel');  // Clear stored level if all levels are completed
     }
